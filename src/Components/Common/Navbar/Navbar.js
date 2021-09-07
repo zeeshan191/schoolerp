@@ -8,6 +8,7 @@ import Dropdown from './Dropdown';
 function Navbar() {
   const [click, setClick] = useState(false);
   const [discoverDropDown, setDiscoverDropDown] = useState(false);
+  const [userDropDown, setUserDropDown] = useState(false);
   const [admissionDropdown, setAdmissionDropdown] = useState(false);
   const [studentDropdown, setStudentDropdown] = useState(false);
   const [mediaDropdown, setMediaDropdown] = useState(false);
@@ -17,8 +18,14 @@ function Navbar() {
   const closeMobileMenu = () => setClick(false);
 
   const onMouseEnter = (menuType) => {
-
-    if (menuType == "DIS") {
+    if (menuType == "USE") {
+      if (window.innerWidth < 960) {
+        setUserDropDown(false);
+      } else {
+        setUserDropDown(true);
+      }
+    }
+    else if (menuType == "DIS") {
       if (window.innerWidth < 960) {
         setDiscoverDropDown(false);
       } else {
@@ -59,7 +66,14 @@ function Navbar() {
 
   const onMouseLeave = (menuType) => {
 
-    if (menuType == "DIS") {
+    if (menuType == "USE") {
+      if (window.innerWidth < 960) {
+        setUserDropDown(false);
+      } else {
+        setUserDropDown(false);
+      }
+    }
+   else if (menuType == "DIS") {
       if (window.innerWidth < 960) {
         setDiscoverDropDown(false);
       } else {
@@ -107,6 +121,19 @@ function Navbar() {
         <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
       </div>
       <ul className={click ? 'nav-menu active' : 'nav-menu'}>
+      <li
+          className='nav-item'
+          onMouseEnter={() => { onMouseEnter("USE") }}
+          onMouseLeave={() => { onMouseLeave("USE") }}
+        >
+          <Link
+            className='nav-links'
+            onClick={closeMobileMenu}
+          >
+         Users <IoMdArrowDropdown />
+          </Link>
+          {userDropDown && <Dropdown Menutype="USE" />}
+        </li>
         <li
           className='nav-item'
           onMouseEnter={() => { onMouseEnter("DIS") }}
